@@ -1,0 +1,14 @@
+name = "nexgen-worker-data-transform"
+account_id = "972efad7c23013678cd1abd3013faf3e"
+workers_dev = true
+compatibility_date = "2025-03-30"
+main = "src/index.ts"
+
+[[kv_namespaces]]
+binding = "SITE_KV"
+id = "19ba88680fec4cd1b0900c86d2295dc3"
+
+[env.production]
+kv_namespaces = [
+  { binding = "SITE_KV", id = "19ba88680fec4cd1b0900c86d2295dc3" }
+]
