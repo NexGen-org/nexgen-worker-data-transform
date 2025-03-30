@@ -1,16 +1,9 @@
-export interface Env {
-	SITE_KV: KVNamespace;
-}
-
-interface Page {
-	id: string;
-	title: string;
-	content: string;
-}
+import { Env, Page } from './types';
 
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
 		const url = new URL(request.url);
+		const id = url.pathname.split('/').pop() || '';
 
 		if (url.pathname === '/favicon.ico') {
 			return new Response(null, { status: 204 });
@@ -23,7 +16,6 @@ export default {
 		}
 
 		const domain = pathParts[0]; // "example.com"
-		const id = pathParts[1]; // "page-101"
 		console.log('typeof env.SITE_KV:', typeof env.SITE_KV);
 		console.log(`page:${domain}:${id}`);
 		const page = (await env.SITE_KV.get(`page:${domain}:${id}`, { type: 'json' })) as Page | null;
