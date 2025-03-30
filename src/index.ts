@@ -9,12 +9,12 @@ export default {
 		}
 
 		const pathParts = url.pathname.slice(1).split('/');
-		if (pathParts.length !== 2) {
+		if (pathParts.length !== 3 || pathParts[0] !== 'context') {
 			return new Response('Invalid path format', { status: 400 });
 		}
 
-		const domain = pathParts[0]; // "example.com"
-		const id = pathParts[1]; // "page-101"
+		const domain = pathParts[1];
+		const id = pathParts[2];
 		const pageKey = `page:${domain}:${id}`;
 		const page = (await env.SITE_KV.get(pageKey, { type: 'json' })) as Page;
 
