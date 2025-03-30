@@ -1,12 +1,4 @@
-export interface Env {
-	SITE_KV: KVNamespace;
-}
-
-interface Page {
-	id: string;
-	title: string;
-	content: string;
-}
+import { Env, Page } from './types';
 
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
@@ -16,10 +8,9 @@ export default {
 			return new Response(null, { status: 204 });
 		}
 
-		const pathParts = url.pathname.split('/').filter(Boolean);
-
-		if (pathParts.length < 2) {
-			return new Response('Bad Request: Missing domain or page ID', { status: 400 });
+		const pathParts = url.pathname.slice(1).split('/');
+		if (pathParts.length !== 2) {
+			return new Response('Invalid path format', { status: 400 });
 		}
 
 		const domain = pathParts[0]; // "example.com"
